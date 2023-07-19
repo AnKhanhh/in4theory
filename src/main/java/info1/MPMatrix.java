@@ -22,7 +22,11 @@ public class MPMatrix {
 			for ( int j = 0; j < Pxy[0].length; j++ ) {
 				do {
 					System.out.printf("input a valid value of P(x,y)[%d][%d]: ", i + 1, j + 1);
-					Pxy[i][j] = sc.nextFloat();
+					String buffer = sc.nextLine();
+					if ( buffer.contains("/") ) {
+						String[] frac = buffer.split("/");
+						Pxy[i][j] = Float.parseFloat(frac[0]) / Float.parseFloat(frac[1]);
+					} else { Pxy[i][j] = Float.parseFloat(buffer); }
 				} while ( Pxy[i][j] < 0 );
 				Px[i] += Pxy[i][j];
 				Py[j] += Pxy[i][j];
@@ -125,7 +129,7 @@ public class MPMatrix {
 	public void display() {
 
 		System.out.printf("""
-						  H(X) = %f, H(Y) = %f, H(X,Y) = %f, H(X|Y) = %f, H(Y|X) = %f, H(Y) − H(Y|X) = %f
+						H(X) = %f, H(Y) = %f, H(X,Y) = %f, H(X|Y) = %f, H(Y|X) = %f, H(Y) − H(Y|X) = %f
 						  					I(X;Y) = %f , D(px||py) = %f, D(py||px) = %f
 						  					after optimization: D(px||py) = %f, D(py||px) = %f
 						  						""", this.getHx(), this.getHy(), this.getHxy(), this.getHx_y(),
